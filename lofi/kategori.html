@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategori - Lo-Fi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="mobile-frame">
+        <div class="app-screen">
+            <!-- Header Halaman Kategori -->
+            <header class="app-header">
+                <a href="index.html" class="back-btn">‹</a>
+                <h1 class="title">Kategori</h1>
+                <a href="#" class="action-btn"><i class="fas fa-plus"></i></a>
+            </header>
+
+            <!-- Konten Utama Halaman Kategori -->
+            <main class="category-page">
+                <!-- Tab Switcher Kategori -->
+                <nav class="category-tabs js-tab-group">
+                    <a href="#" class="pengeluaran" data-target="pengeluaranContent">Pengeluaran</a>
+                    <a href="#" class="pemasukan" data-target="pemasukanContent">Pemasukan</a>
+                </nav>
+
+                <!-- Daftar Kategori (Konten Dinamis) -->
+                <div class="category-list">
+                    <!-- Konten untuk Tab Pengeluaran -->
+                    <div id="pengeluaranContent" class="tab-content">
+                        <ul>
+                            <li class="list-item"><span class="name">Asuransi</span>
+                                <div class="actions"><a href="#">✎</a><a href="#">🗑️</a></div>
+                            </li>
+                            <li class="list-item"><span class="name">Bayi</span>
+                                <div class="actions"><a href="#">✎</a><a href="#">🗑️</a></div>
+                            </li>
+                            <li class="list-item"><span class="name">Belanja</span>
+                                <div class="actions"><a href="#">✎</a><a href="#">🗑️</a></div>
+                            </li>
+                            <li class="list-item"><span class="name">Buah-buahan</span>
+                                <div class="actions"><a href="#">✎</a><a href="#">🗑️</a></div>
+                            </li>
+                            <li class="list-item"><span class="name">Cemilan</span>
+                                <div class="actions"><a href="#">✎</a><a href="#">🗑️</a></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Konten untuk Tab Pemasukan -->
+                    <div id="pemasukanContent" class="tab-content">
+                        <ul>
+                            <li class="list-item"><span class="name">Deposito</span>
+                                <div class="actions"><a href="#">✎</a><a href="#">🗑️</a></div>
+                            </li>
+                            <li class="list-item"><span class="name">Dividen</span>
+                                <div class="actions"><a href="#">✎</a><a href="#">🗑️</a></div>
+                            </li>
+                            <li class="list-item"><span class="name">Gaji</span>
+                                <div class="actions"><a href="#">✎</a><a href="#">🗑️</a></div>
+                            </li>
+                            <li class="list-item"><span class="name">Hibah</span>
+                                <div class="actions"><a href="#">✎</a><a href="#">🗑️</a></div>
+                            </li>
+                            <li class="list-item"><span class="name">Investasi</span>
+                                <div class="actions"><a href="#">✎</a><a href="#">🗑️</a></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Banner Iklan Placeholder -->
+                <div class="ad-banner">
+                    <p>Ad Banner Placeholder</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

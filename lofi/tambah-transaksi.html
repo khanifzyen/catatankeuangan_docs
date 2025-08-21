@@ -1,0 +1,54 @@
+<!-- tambah-transaksi.html -->
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Transaksi - Lo-Fi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="mobile-frame">
+        <div class="app-screen">
+            <header class="app-header">
+                <a href="index.html" class="back-btn">‹</a>
+                <h1 class="title">Buat Transaksi</h1>
+            </header>
+            <main>
+                <nav class="tabs">
+                    <a href="#" class="active">Pengeluaran</a>
+                    <a href="#">Pemasukan</a>
+                </nav>
+
+                <form action="#">
+                    <div class="form-group">
+                        <label for="tanggal">Tanggal</label>
+                        <input type="date" id="tanggal" value="2024-05-23">
+                    </div>
+                    <div class="form-group">
+                        <label for="kategori">Kategori</label>
+                        <select id="kategori">
+                            <option>Makanan</option>
+                            <option>Transportasi</option>
+                            <option>Tagihan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah">Jumlah</label>
+                        <input type="number" id="jumlah" placeholder="Rp0">
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan">Keterangan</label>
+                        <textarea id="keterangan" rows="3" placeholder="Contoh: Makan siang"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Simpan</button>
+                </form>
+            </main>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
