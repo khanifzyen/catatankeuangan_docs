@@ -14,606 +14,517 @@
     --highlight-color: #ffc107;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; color: var(--dark-text-color); }
+
+/* --- 2. Komponen Layout Utama --- */
+.mobile-frame { width: 375px; height: 812px; background-color: var(--frame-bg-color); border: 10px solid #111; border-radius: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.app-screen { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
+main { flex-grow: 1; overflow-y: auto; }
+
+/* --- 3. Komponen UI Umum (Reusable) --- */
+.app-header { display: flex; align-items: center; justify-content: space-between; padding: 15px; background-color: var(--primary-color); color: var(--primary-text-color); flex-shrink: 0; }
+.app-header .back-btn { font-size: 24px; margin-right: 15px; color: var(--primary-text-color); text-decoration: none; }
+.app-header .title { font-size: 18px; font-weight: 600; flex-grow: 1; }
+.header-period-nav { display: flex; align-items: center; font-size: 18px; font-weight: 600; }
+.header-period-nav.hidden { display: none; }
+.header-period-nav a { color: var(--primary-text-color); text-decoration: none; padding: 0 10px; font-size: 24px; }
+.header-title-static { font-size: 18px; font-weight: 600; }
+.header-title-static.hidden { display: none; }
+.header-actions { display: flex; align-items: center; }
+.header-actions a { color: var(--primary-text-color); text-decoration: none; font-size: 20px; margin-left: 18px; cursor: pointer; }
+
+.btn { display: block; width: 100%; padding: 12px; border: none; border-radius: 8px; background-color: var(--primary-color); color: var(--primary-text-color); font-size: 16px; font-weight: 600; text-align: center; cursor: pointer; text-decoration: none; }
+.fab { position: absolute; bottom: 20px; right: 20px; width: 56px; height: 56px; background-color: var(--primary-color); color: var(--primary-text-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 32px; font-weight: 300; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100; }
+ul { list-style-type: none; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border-color); }
+.time-nav-tabs { display: flex; justify-content: space-around; border-bottom: 1px solid var(--border-color); padding: 0 10px; flex-shrink: 0; }
+.time-nav-tabs a { padding: 15px 10px; text-decoration: none; color: var(--secondary-text-color); font-weight: 600; position: relative; cursor: pointer; }
+.time-nav-tabs a.active { color: var(--primary-color); }
+.time-nav-tabs a.active::after { content: ''; position: absolute; bottom: 0; left: 10px; right: 10px; height: 3px; background-color: var(--primary-color); border-radius: 2px; }
+
+/* --- 4. Style Spesifik per Halaman --- */
+/* Dashboard */
+main.dashboard-main { padding: 0; }
+.summary-card { display: flex; justify-content: space-around; padding: 20px; border-bottom: 1px solid var(--border-color); text-align: center; flex-shrink: 0; }
+.summary-item h3 { font-size: 14px; color: var(--secondary-text-color); margin-bottom: 5px; }
+.summary-item p { font-size: 18px; font-weight: 600; }
+.summary-item p.income { color: var(--income-color); } .summary-item p.expense { color: var(--expense-color); }
+.transaction-group { margin-bottom: 10px; }
+.group-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background-color: #f8f9fa; }
+.date-tag { display: flex; align-items: center; } .date-tag .day { font-size: 24px; font-weight: 700; margin-right: 8px; } .date-tag .date-details { display: flex; flex-direction: column; font-size: 12px; color: var(--secondary-text-color); } .date-tag .weekday { font-weight: 600; color: var(--dark-text-color); background-color: #e9ecef; padding: 2px 6px; border-radius: 4px; }
+.daily-summary { display: flex; gap: 15px; font-weight: 600; } .daily-summary .income { color: var(--income-color); } .daily-summary .expense { color: var(--expense-color); }
+.transaction-list .list-item .left { display: flex; flex-direction: column; }
+.transaction-list .list-item .category { font-weight: 500; } .transaction-list .list-item .description { font-size: 14px; color: var(--secondary-text-color); }
+.transaction-list .list-item .amount { font-weight: 600; font-size: 16px; }
+.transaction-list .list-item .amount.income { color: var(--income-color); } .transaction-list .list-item .amount.expense { color: var(--expense-color); }
+.week-details-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.week-details-left .week-info { font-weight: 600; font-size: 16px; }
+.date-range-tag { display: inline-block; padding: 4px 8px; background-color: #e9ecef; border-radius: 6px; font-size: 12px; color: var(--secondary-text-color); font-weight: 500; }
+.date-range-tag.current { background-color: var(--highlight-color); color: var(--dark-text-color); }
+.week-summary-amounts { display: flex; gap: 15px; font-weight: 600; font-size: 16px; }
+.week-summary-amounts .income { color: var(--income-color); } .week-summary-amounts .expense { color: var(--expense-color); }
+.month-tag { background-color: #e9ecef; padding: 6px 12px; border-radius: 15px; font-weight: 600; width: 60px; text-align: center; }
+.month-tag.current { background-color: var(--highlight-color); color: var(--dark-text-color); }
+.year-tag { background-color: #e9ecef; padding: 6px 12px; border-radius: 15px; font-weight: 600; width: 70px; text-align: center; }
+.year-tag.current { background-color: var(--highlight-color); color: var(--dark-text-color); }
+.monthly-summary-amounts, .annual-summary-amounts { display: flex; flex-direction: row; align-items: center; gap: 15px; font-weight: 600; }
+.monthly-summary-amounts .income, .annual-summary-amounts .income { color: var(--income-color); }
+.monthly-summary-amounts .expense, .annual-summary-amounts .expense { color: var(--expense-color); }
+
+/* Kategori */
+main.category-page { padding: 15px; display: flex; flex-direction: column; }
+.category-tabs { display: flex; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
+.category-tabs a { flex: 1; text-align: center; padding: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s ease-in-out; background-color: var(--frame-bg-color); color: var(--secondary-text-color); border: 1px solid var(--border-color); cursor: pointer; }
+.category-tabs a.pengeluaran { border-right: none; }
+.category-tabs a.active.pengeluaran { background-color: var(--expense-color); color: var(--primary-text-color); border-color: var(--expense-color); }
+.category-tabs a.active.pemasukan { background-color: var(--income-color); color: var(--primary-text-color); border-color: var(--income-color); }
+.category-list { flex-grow: 1; overflow-y: auto; }
+.category-list .list-item .name { font-weight: 500; flex-grow: 1; }
+.category-list .list-item .actions a { margin-left: 15px; font-size: 20px; color: var(--secondary-text-color); text-decoration: none; }
+
+/* Tambah Transaksi */
+main.form-page { padding: 15px; display: flex; flex-direction: column; }
+.transaction-type-tabs { display: flex; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 15px; }
+.transaction-type-tabs a { flex: 1; text-align: center; padding: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s ease-in-out; cursor: pointer; color: var(--dark-text-color); background-color: transparent; }
+.transaction-type-tabs a.pengeluaran.active { background-color: var(--expense-color); color: var(--primary-text-color); border-radius: 7px 0 0 7px;}
+.transaction-type-tabs a.pemasukan.active { background-color: var(--income-color); color: var(--primary-text-color); border-radius: 0 7px 7px 0; }
+.form-container { background-color: #f8f9fa; padding: 20px; border-radius: 8px; }
+.form-row { display: flex; align-items: center; margin-bottom: 15px; }
+.form-row label { width: 90px; font-weight: 500; color: var(--dark-text-color); }
+.form-row .input-wrapper { flex: 1; display: flex; align-items: center; }
+.form-row input, .form-row select, .form-row textarea { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 16px; background-color: var(--frame-bg-color); }
+.form-row .input-wrapper a { text-decoration: none; color: var(--secondary-text-color); font-size: 20px; padding: 8px; margin-left: 5px; }
+.form-page .btn { margin-top: 20px; }
+
+/* --- 5. Overflow Menu & Banner --- */
+.scrim { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s ease-in-out; pointer-events: none; z-index: 999; }
+.scrim.active { opacity: 1; pointer-events: auto; }
+.overflow-menu { position: absolute; top: 0; right: 0; bottom: 0; width: 280px; background-color: var(--frame-bg-color); box-shadow: -5px 0 15px rgba(0,0,0,0.1); transform: translateX(100%); transition: transform 0.3s ease-in-out; z-index: 1000; padding-top: 60px; }
+.overflow-menu.active { transform: translateX(0); }
+.overflow-menu ul li a { display: flex; align-items: center; padding: 15px 20px; text-decoration: none; color: var(--dark-text-color); font-weight: 500; }
+.overflow-menu ul li a:hover { background-color: #f8f9fa; }
+.overflow-menu ul li a i { font-size: 20px; width: 40px; text-align: center; margin-right: 10px; }
+.ad-banner { margin-top: auto; padding: 10px; background-color: #e9ecef; text-align: center; color: var(--secondary-text-color); flex-shrink: 0; }
+
+/* --- 6. Helper & Utilitas --- */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.hidden { display: none !important; }
+.empty-state { text-align: center; margin-top: 50px; padding: 20px; color: var(--secondary-text-color); }
+.empty-state-icon { font-size: 48px; margin-bottom: 15px; }
+
+main.grafik-page {
+    padding: 15px;
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: var(--bg-color);
+.dropdown-btn {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: var(--dark-text-color);
+    font-weight: 500;
+    font-size: 14px;
+    background-color: var(--frame-bg-color);
+}
+.dropdown-btn.header {
+    border-color: var(--primary-text-color);
+    background-color: transparent;
+    color: var(--primary-text-color);
+}
+.dropdown-btn.small {
+    font-size: 12px;
+    padding: 6px 10px;
+}
+.dropdown-btn i {
+    margin-left: 5px;
+}
+
+.filters-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.period-nav {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+.period-nav a {
+    text-decoration: none;
+    color: var(--dark-text-color);
+    font-size: 24px;
+    padding: 0 10px;
+}
+.period-nav span {
+    font-size: 16px;
+}
+
+.chart-container {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    color: var(--dark-text-color);
+    margin-bottom: 30px;
 }
 
-
-/* --- 2. Komponen Layout Utama --- */
-.mobile-frame {
-    width: 375px;
-    height: 812px;
-    background-color: var(--frame-bg-color);
-    border: 10px solid #111;
-    border-radius: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
+.donut-chart {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    /* Membuat chart dengan conic-gradient. 100% merah, 0% abu-abu */
+    background: conic-gradient(var(--expense-color) 0% 100%, var(--border-color) 100% 100%);
     position: relative;
-    overflow: hidden;
-}
-
-.app-screen {
-    flex-grow: 1;
     display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-}
-
-main {
-    flex-grow: 1;
-    overflow-y: auto;
-}
-
-
-/* --- 3. Komponen UI Umum (Reusable) --- */
-
-/* Header / App Bar */
-.app-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    background-color: var(--primary-color);
-    color: var(--primary-text-color);
-    flex-shrink: 0;
-}
-
-.app-header .back-btn {
-    font-size: 24px;
-    margin-right: 15px;
-    color: var(--primary-text-color);
-    text-decoration: none;
-}
-
-.app-header .title {
-    font-size: 18px;
-    font-weight: 600;
-    flex-grow: 1;
-}
-
-.header-period-nav {
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.header-period-nav.hidden {
-    display: none;
-}
-
-.header-period-nav a {
-    color: var(--primary-text-color);
-    text-decoration: none;
-    padding: 0 10px;
-    font-size: 24px;
-}
-
-.header-title-static {
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.header-title-static.hidden {
-    display: none;
-}
-
-.header-actions {
-    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.header-actions a {
-    color: var(--primary-text-color);
-    text-decoration: none;
-    font-size: 20px;
-    margin-left: 18px;
-    cursor: pointer;
-}
-
-/* Tombol (Button & FAB) */
-.btn {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background-color: var(--primary-color);
-    color: var(--primary-text-color);
-    font-size: 16px;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.fab {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    width: 56px;
-    height: 56px;
-    background-color: var(--primary-color);
-    color: var(--primary-text-color);
+.chart-center-label {
+    width: 65%; /* Membuat lubang di tengah */
+    height: 65%;
+    background-color: var(--frame-bg-color);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 32px;
-    font-weight: 300;
-    text-decoration: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    z-index: 100;
+    font-size: 20px;
+    font-weight: 600;
 }
 
-/* Form (Untuk Halaman Tambah Transaksi) */
-main.form-page {
-    padding: 15px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 500;
-    margin-bottom: 5px;
+.chart-percentage-label {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
     color: var(--secondary-text-color);
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.category-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+.category-list-header .title {
+    font-weight: 600;
+}
+.category-list-header .title i {
+    margin-right: 8px;
+    color: var(--secondary-text-color);
+}
+
+.category-summary-list .category-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    position: relative;
+    border-bottom: none; /* Hapus border default */
+}
+.category-summary-list .info {
+    font-weight: 500;
+}
+.category-summary-list .info .percentage {
+    color: var(--secondary-text-color);
+    font-size: 14px;
+    margin-right: 5px;
+}
+.category-summary-list .amount {
+    font-weight: 600;
+    color: var(--dark-text-color);
+}
+.category-summary-list .amount i {
+    margin-left: 10px;
+    color: var(--secondary-text-color);
+    font-size: 14px;
+}
+.category-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    right: 15px;
+    height: 4px;
+    background-color: var(--expense-color);
+    border-radius: 2px;
+    width: calc(100% - 30px); /* Lebar sesuai padding */
+}
+
+main.settings-page {
+    padding-bottom: 20px;
+}
+
+ul.settings-list {
+    list-style-type: none;
+}
+
+ul.settings-list li {
+    border-bottom: 1px solid var(--border-color);
+}
+
+ul.settings-list li.divider-after {
+    border-bottom: none;
+    margin-bottom: 20px; /* Membuat jarak antar grup */
+}
+/* Menambahkan border di atas grup baru untuk konsistensi visual */
+ul.settings-list li.divider-after + li {
+    border-top: 1px solid var(--border-color);
+}
+
+
+ul.settings-list li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: var(--dark-text-color);
+}
+
+.setting-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.setting-details .title {
+    font-size: 16px;
+}
+
+.setting-details .value {
+    font-size: 14px;
+    color: var(--expense-color); /* Menggunakan warna merah sesuai screenshot */
+}
+
+.setting-action i {
+    color: var(--secondary-text-color);
+    font-size: 14px;
+}
+
+.app-version-footer {
+    text-align: center;
+    margin-top: 30px;
+    color: var(--secondary-text-color);
+}
+.app-version-footer span {
+    display: block;
+    font-size: 14px;
+}
+
+main.about-page {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.about-card {
+    background-color: #f8f9fa;
+    padding: 25px;
+    border-radius: 12px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.app-icon-large {
+    width: 80px;
+    height: 80px;
+    background-color: var(--expense-color);
+    color: var(--primary-text-color);
+    border-radius: 18px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.app-icon-large span {
+    position: absolute;
+    left: 12px;
+    bottom: 18px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.app-icon-large i {
+    transform: translateX(8px);
+}
+
+.version-text {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.description-text {
+    color: var(--secondary-text-color);
+    line-height: 1.6;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.email-btn {
+    font-size: 14px;
+    padding: 10px;
+}
+
+.action-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.action-links a {
+    color: var(--expense-color);
+    text-decoration: underline;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+main.hadiah-page {
+    padding: 0 15px; /* Padding kiri-kanan saja */
+}
+
+ul.hadiah-list {
+    list-style-type: none;
+}
+
+ul.hadiah-list li {
+    border-bottom: 1px solid var(--border-color);
+}
+
+ul.hadiah-list li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0; /* Padding atas-bawah saja */
+    text-decoration: none;
+    color: var(--dark-text-color);
+    font-size: 16px;
+}
+
+ul.hadiah-list li a i {
+    color: var(--secondary-text-color);
+    font-size: 20px;
+}
+
+main.help-page {
+    padding: 20px;
+}
+
+.faq-item {
+    margin-bottom: 25px;
+}
+
+.faq-item:last-of-type {
+    margin-bottom: 0;
+}
+
+.faq-item h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--dark-text-color);
+}
+
+.faq-item p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--secondary-text-color);
+}
+
+main.search-page {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color); /* Latar belakang abu-abu */
+}
+
+.search-filters {
+    padding: 15px;
+    background-color: var(--frame-bg-color); /* Latar belakang putih */
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.filter-row:last-child {
+    margin-bottom: 0;
+}
+
+.filter-row.keyword .input-wrapper {
+    width: 100%;
+}
+
+.filter-row label {
+    width: 80px;
+    font-weight: 500;
+}
+
+.filter-row .input-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.filter-row .input-wrapper i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-text-color);
+}
+
+.filter-row input {
     width: 100%;
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    font-size: 16px;
-}
-
-/* Tabs (Ada 2 Tipe: Umum dan Navigasi Waktu) */
-.tabs {
-    display: flex;
-    background-color: #e9ecef;
-    border-radius: 8px;
-    padding: 4px;
-    margin-bottom: 15px;
-}
-
-.tabs a {
-    flex: 1;
-    text-align: center;
-    padding: 8px 10px;
-    text-decoration: none;
-    color: var(--secondary-text-color);
-    font-weight: 500;
-    border-radius: 6px;
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-}
-
-.tabs a.active {
-    background-color: var(--frame-bg-color);
-    color: var(--primary-color);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.time-nav-tabs {
-    display: flex;
-    justify-content: space-around;
-    border-bottom: 1px solid var(--border-color);
-    padding: 0 10px;
-    flex-shrink: 0;
-}
-
-.time-nav-tabs a {
-    padding: 15px 10px;
-    text-decoration: none;
-    color: var(--secondary-text-color);
-    font-weight: 600;
-    position: relative;
-    cursor: pointer;
-}
-
-.time-nav-tabs a.active {
-    color: var(--primary-color);
-}
-
-.time-nav-tabs a.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 10px;
-    right: 10px;
-    height: 3px;
-    background-color: var(--primary-color);
-    border-radius: 2px;
-}
-
-/* Lists (Umum) */
-ul {
-    list-style-type: none;
-}
-
-.list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-
-/* --- 4. Style Spesifik per Halaman --- */
-
-/* Dashboard (index.html) */
-main.dashboard-main {
-    padding: 0;
-}
-
-.summary-card {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-    border-bottom: 1px solid var(--border-color);
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.summary-item h3 {
     font-size: 14px;
-    color: var(--secondary-text-color);
-    margin-bottom: 5px;
+    background-color: #f0f2f5; /* Warna input abu-abu */
 }
 
-.summary-item p {
-    font-size: 18px;
-    font-weight: 600;
+.filter-row input.with-icon {
+    padding-left: 35px;
 }
 
-.summary-item p.income {
-    color: var(--income-color);
-}
-
-.summary-item p.expense {
-    color: var(--expense-color);
-}
-
-.transaction-group {
-    margin-bottom: 10px;
-}
-
-.group-header {
+.amount-range {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 15px;
-    background-color: #f8f9fa;
+    gap: 10px;
 }
 
-.date-tag {
-    display: flex;
-    align-items: center;
-}
-
-.date-tag .day {
-    font-size: 24px;
-    font-weight: 700;
-    margin-right: 8px;
-}
-
-.date-tag .date-details {
-    display: flex;
-    flex-direction: column;
-    font-size: 12px;
-    color: var(--secondary-text-color);
-}
-
-.date-tag .weekday {
-    font-weight: 600;
-    color: var(--dark-text-color);
-    background-color: #e9ecef;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-.daily-summary {
-    display: flex;
-    gap: 15px;
-    font-weight: 600;
-}
-
-.daily-summary .income {
-    color: var(--income-color);
-}
-
-.daily-summary .expense {
-    color: var(--expense-color);
-}
-
-.transaction-list .list-item .left {
-    display: flex;
-    flex-direction: column;
-}
-
-.transaction-list .list-item .category {
-    font-weight: 500;
-}
-
-.transaction-list .list-item .description {
-    font-size: 14px;
-    color: var(--secondary-text-color);
-}
-
-.transaction-list .list-item .amount {
-    font-weight: 600;
-    font-size: 16px;
-}
-
-.transaction-list .list-item .amount.income {
-    color: var(--income-color);
-}
-
-.transaction-list .list-item .amount.expense {
-    color: var(--expense-color);
-}
-
-.week-details-left {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-}
-
-.week-details-left .week-info {
-    font-weight: 600;
-    font-size: 16px;
-}
-
-.date-range-tag {
-    display: inline-block;
-    padding: 4px 8px;
-    background-color: #e9ecef;
-    border-radius: 6px;
-    font-size: 12px;
-    color: var(--secondary-text-color);
-    font-weight: 500;
-}
-
-.date-range-tag.current {
-    background-color: var(--highlight-color);
-    color: var(--dark-text-color);
-}
-
-.week-summary-amounts {
-    display: flex;
-    gap: 15px;
-    font-weight: 600;
-    font-size: 16px;
-}
-
-.week-summary-amounts .income {
-    color: var(--income-color);
-}
-
-.week-summary-amounts .expense {
-    color: var(--expense-color);
-}
-
-.month-tag {
-    background-color: #e9ecef;
-    padding: 6px 12px;
-    border-radius: 15px;
-    font-weight: 600;
-    width: 60px;
+.amount-range input {
     text-align: center;
 }
 
-.month-tag.current {
-    background-color: var(--highlight-color);
-    color: var(--dark-text-color);
-}
-
-.year-tag {
-    background-color: #e9ecef;
-    padding: 6px 12px;
-    border-radius: 15px;
-    font-weight: 600;
-    width: 70px;
-    text-align: center;
-}
-
-.year-tag.current {
-    background-color: var(--highlight-color);
-    color: var(--dark-text-color);
-}
-
-.monthly-summary-amounts,
-.annual-summary-amounts {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-    font-weight: 600;
-}
-
-.monthly-summary-amounts .income,
-.annual-summary-amounts .income {
-    color: var(--income-color);
-}
-
-.monthly-summary-amounts .expense,
-.annual-summary-amounts .expense {
-    color: var(--expense-color);
-}
-
-/* Kategori (kategori.html) */
-main.category-page {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-}
-
-.category-tabs {
-    display: flex;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 15px;
-}
-
-.category-tabs a {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.2s ease-in-out;
-    background-color: var(--frame-bg-color);
-    color: var(--secondary-text-color);
-    border: 1px solid var(--border-color);
-    cursor: pointer;
-}
-
-.category-tabs a.pengeluaran {
-    border-right: none;
-}
-
-.category-tabs a.active.pengeluaran {
-    background-color: var(--expense-color);
-    color: var(--primary-text-color);
-    border-color: var(--expense-color);
-}
-
-.category-tabs a.active.pemasukan {
-    background-color: var(--income-color);
-    color: var(--primary-text-color);
-    border-color: var(--income-color);
-}
-
-.category-list {
+.search-results {
     flex-grow: 1;
     overflow-y: auto;
 }
 
-.category-list .list-item .name {
-    font-weight: 500;
-    flex-grow: 1;
-}
-
-.category-list .list-item .actions a {
-    margin-left: 15px;
-    font-size: 20px;
-    color: var(--secondary-text-color);
-    text-decoration: none;
-}
-
-.ad-banner {
-    margin-top: auto;
-    /* Mendorong banner ke bawah */
-    padding: 10px;
-    background-color: #e9ecef;
+.search-footer {
+    background-color: var(--primary-color);
+    padding: 12px;
     text-align: center;
-    color: var(--secondary-text-color);
     flex-shrink: 0;
 }
 
-/* --- 5. Overflow Menu --- */
-.scrim {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    pointer-events: none;
-    z-index: 999;
-}
-
-.scrim.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.overflow-menu {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 280px;
-    background-color: var(--frame-bg-color);
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    z-index: 1000;
-    padding-top: 60px;
-}
-
-.overflow-menu.active {
-    transform: translateX(0);
-}
-
-.overflow-menu ul {
-    list-style-type: none;
-}
-
-.overflow-menu ul li a {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
+.search-footer a {
+    color: var(--primary-text-color);
+    font-size: 24px;
     text-decoration: none;
-    color: var(--dark-text-color);
-    font-weight: 500;
-}
-
-.overflow-menu ul li a:hover {
-    background-color: #f8f9fa;
-}
-
-.overflow-menu ul li a i {
-    font-size: 20px;
-    width: 40px;
-    text-align: center;
-    margin-right: 10px;
-}
-
-
-/* --- 6. Helper & Utilitas --- */
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-.hidden {
-    display: none !important;
-}
-
-.empty-state {
-    text-align: center;
-    margin-top: 50px;
-    padding: 20px;
-    color: var(--secondary-text-color);
-}
-
-.empty-state-icon {
-    font-size: 48px;
-    margin-bottom: 15px;
 }
